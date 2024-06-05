@@ -36,9 +36,8 @@ def multiprocess_model(model):
         with WorkerPool(n_jobs=4, use_worker_state=True) as pool:
             # Best practice to limit worker lifespan (due to poor python garbage collection)
             # Opting for shorter lifespans because model class could be large
-            results = pool.map(run_model, runs, worker_init=worker_init, 
-                               iterable_len=len(runs)) # This will probably be faster but could kill RAM
-                               #worker_lifespan=4, chunk_size=4)
+            results = pool.map(run_model, runs, worker_init=worker_init, worker_lifespan=4, chunk_size=4)
+
         return results
     
     return wrapper
